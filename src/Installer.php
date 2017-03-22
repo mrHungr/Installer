@@ -22,17 +22,16 @@ class Installer extends Command
     protected function configure()
     {
         $this
-            ->setName('new')
+            ->setName('install')
             ->setDescription('Create a new Antvel application.')
-            ->addArgument('name', InputArgument::OPTIONAL)
-            ->addOption('dev', null, InputOption::VALUE_NONE, 'Installs the latest "development" release');
+            ->addArgument('name', InputArgument::OPTIONAL);
     }
 
     /**
      * Execute the command.
      *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  InputInterface  $input
+     * @param  OutputInterface  $output
      * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -42,18 +41,16 @@ class Installer extends Command
         }
 
         $this->verifyApplicationDoesntExist(
-            $directory = ($input->getArgument('name')) ? getcwd().'/'.$input->getArgument('name') : getcwd()
+            $directory = $input->getArgument('name') ? getcwd() . '/' . $input->getArgument('name') : getcwd()
         );
 
-        $output->writeln('<info>Cloning application...</info>');
+        $output->writeln('<info>Cloning the Antvel application...</info>');
 
-        $version = $this->getVersion($input);
-
-        $this->download($zipFile = $this->makeFilename())
+        $this->download($zipFile = $this->filename())
              ->extract($zipFile, $directory)
              ->cleanUp($zipFile);
 
-        $composer = $this->findComposer();
+        $composer = $this->composer();
 
         $commands = [
             'cd ' . $directory . '/App-master',
@@ -61,6 +58,7 @@ class Installer extends Command
             $composer.' run-script post-root-package-install',
             $composer.' run-script post-install-cmd',
             $composer.' run-script post-create-project-cmd',
+            'php artisan migrate:refresh --seed',
             'bower install',
         ];
 
@@ -80,7 +78,7 @@ class Installer extends Command
             $output->write($line);
         });
 
-        $output->writeln('<comment>Application ready!.</comment>');
+        $output->writeln('<comment>The Antvel aplication ready!.</comment>');
     }
 
     /**
@@ -101,9 +99,9 @@ class Installer extends Command
      *
      * @return string
      */
-    protected function makeFilename()
+    protected function filename()
     {
-        return getcwd().'/antvel'.md5(time().uniqid()).'.zip';
+        return getcwd() . '/antvel' . md5(time().uniqid()) . '.zip';
     }
 
     /**
@@ -154,30 +152,16 @@ class Installer extends Command
     }
 
     /**
-     * Get the version that should be downloaded.
-     *
-     * @param  \Symfony\Component\Console\Input\InputInterface  $input
-     * @return string
-     */
-    protected function getVersion(InputInterface $input)
-    {
-        if ($input->getOption('dev')) {
-            return 'develop';
-        }
-
-        return 'master';
-    }
-    /**
      * Get the composer command for the environment.
      *
      * @return string
      */
-    protected function findComposer()
+    protected function composer()
     {
         if (file_exists(getcwd().'/composer.phar')) {
             return '"'.PHP_BINARY.'" composer.phar';
         }
 
-        return 'composer.phar';
+        return 'composer';
     }
 }
