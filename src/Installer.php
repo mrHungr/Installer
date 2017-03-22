@@ -78,7 +78,7 @@ class Installer extends Command
             $output->write($line);
         });
 
-        $output->writeln('<comment>The Antvel aplication ready!.</comment>');
+        $output->writeln('<comment>The Antvel aplication is ready!.</comment>');
     }
 
     /**
