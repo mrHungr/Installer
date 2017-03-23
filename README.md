@@ -1,5 +1,8 @@
 ### Installing Antvel
 
+[![Total Downloads](https://img.shields.io/packagist/dt/antvel/Installer.svg?style=flat-square)](https://img.shields.io/packagist/dt/antvel/Installer.svg?style=flat-square)
+[![Packagist](https://img.shields.io/packagist/v/antvel/Installer.svg?style=flat-square)](https://github.com/ant-vel/Shop)
+
 Antvel uses [Composer](https://getcomposer.org) to manage its dependencies. So, before using it, make sure you have Composer installed on your machine.
 
 #### Via Antvel Installer
