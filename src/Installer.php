@@ -50,17 +50,7 @@ class Installer extends Command
              ->extract($zipFile, $directory)
              ->cleanUp($zipFile);
 
-        $composer = $this->composer();
-
-        $commands = [
-            'cd ' . $directory . '/App-master',
-            $composer.' install --no-scripts',
-            $composer.' run-script post-root-package-install',
-            $composer.' run-script post-install-cmd',
-            $composer.' run-script post-create-project-cmd',
-            'php artisan migrate:refresh --seed',
-            'bower install',
-        ];
+        $commands = $this->commandsFor($directory);
 
         if ($input->getOption('no-ansi')) {
             $commands = array_map(function ($value) {
@@ -163,5 +153,28 @@ class Installer extends Command
         }
 
         return 'composer';
+    }
+
+    /**
+     * The commands to be ran.
+     *
+     * @param  string $directory
+     * @return array
+     */
+    protected function commandsFor($directory)
+    {
+        $composer = $this->composer();
+
+        return [
+            'cd ' . $directory . '/App-master',
+            $composer . ' install --no-scripts',
+            $composer . ' run-script post-root-package-install',
+            $composer . ' run-script post-install-cmd',
+            $composer . ' run-script post-create-project-cmd',
+            'php artisan migrate:refresh --seed',
+            'bower install',
+            'yarn install',
+            'gulp'
+        ];
     }
 }
