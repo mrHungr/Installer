@@ -24,9 +24,7 @@ We are going to run all the required commands to get you started as quickly as p
 
 ### Video Illustration
 
-<p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YR-PgotQhdQ" frameborder="0" allowfullscreen></iframe>
-</p>
+See the video on youtube clicking on <a href="https://youtu.be/YR-PgotQhdQ" _target="blank">here</a>
 
 
 ### Inspiration
