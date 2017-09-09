@@ -41,10 +41,10 @@ class Installer extends Command
         }
 
         $this->verifyApplicationDoesntExist(
-            $directory = $input->getArgument('name') ? getcwd() . '/' . $input->getArgument('name') : getcwd()
+            $directory = $input->getArgument('name') ? getcwd() . DIRECTORY_SEPARATOR . $input->getArgument('name') : getcwd()
         );
 
-        $output->writeln('<info>Cloning the Antvel application...</info>');
+        $output->writeln('<info>Cloning the Antvel application... This might take some time!</info>');
 
         $this->download($zipFile = $this->filename())
              ->extract($zipFile, $directory)
@@ -91,7 +91,7 @@ class Installer extends Command
      */
     protected function filename()
     {
-        return getcwd() . '/antvel' . md5(time().uniqid()) . '.zip';
+        return getcwd() . DIRECTORY_SEPARATOR . 'antvel' . md5(time().uniqid()) . '.zip';
     }
 
     /**
@@ -148,8 +148,8 @@ class Installer extends Command
      */
     protected function composer()
     {
-        if (file_exists(getcwd().'/composer.phar')) {
-            return '"'.PHP_BINARY.'" composer.phar';
+        if (file_exists(getcwd() . DIRECTORY_SEPARATOR . 'composer.phar')) {
+            return '"' . PHP_BINARY . '" composer.phar';
         }
 
         return 'composer';
@@ -166,15 +166,12 @@ class Installer extends Command
         $composer = $this->composer();
 
         return [
-            'cd ' . $directory . '/App-master',
+            'cd ' . $directory . DIRECTORY_SEPARATOR . 'App-master',
             $composer . ' install --no-scripts',
             $composer . ' run-script post-root-package-install',
             $composer . ' run-script post-install-cmd',
             $composer . ' run-script post-create-project-cmd',
             'php artisan migrate:refresh --seed',
-            'bower install',
-            'yarn install',
-            'gulp'
         ];
     }
 }
