@@ -167,7 +167,7 @@ class Installer extends Command
 
         return [
             'cd ' . $directory . DIRECTORY_SEPARATOR . 'App-master',
-            $composer . 'clear-cache',
+            $composer . ' clear-cache',
             $composer . ' install --no-scripts',
             $composer . ' run-script post-root-package-install',
             $composer . ' run-script post-install-cmd',
