@@ -24,6 +24,18 @@ We are going to run all the required commands to get you started as quickly as p
 
 ***Note:*** This process will take a little bit of time, so make you, you are not in a hurry :)
 
+Once the installing process is done, you will have to install the Javascript dependencies through <a href="https://github.com/yarnpkg/yarn" target="_blank">yarn</a>. As so:
+
+```
+yarn install
+```
+
+Then, you will have to run ```bower install``` to install all the Antvel assets where the belong. As so:
+
+```
+bower install
+```
+
 
 ### Video Illustration
 
